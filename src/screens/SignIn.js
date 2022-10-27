@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material';
 import React, { useState } from 'react';
+import host from '../data/host';
 const classes = {
 	button: {
 		border: 'none',
@@ -22,7 +23,32 @@ const classes = {
 const SignIn = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const handleSubmit = () => {};
+	const data = {
+		email_id: email,
+		password: password,
+	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log('adf');
+		var axios = require('axios');
+		var config = {
+			method: 'post',
+			url: `${host.host}/login`,
+			data: data,
+		};
+		axios(config)
+			.then(function (response) {
+				console.log(JSON.stringify(response.data));
+				if (response.status === 200) {
+					console.log('success');
+				}
+				console.log(JSON.stringify(response.data));
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
 	return (
 		<div
 			style={{
@@ -97,4 +123,4 @@ const SignIn = () => {
 	);
 };
 
-export default Login;
+export default SignIn;
