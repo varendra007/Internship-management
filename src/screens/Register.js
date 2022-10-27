@@ -5,7 +5,7 @@ const classes = {
 	button: {
 		border: 'none',
 		borderRadius: '100px',
-		width: '150px',
+		width: '200px',
 		height: '55px',
 		backgroundColor: '#fa2d64',
 		color: '#ffffff',
