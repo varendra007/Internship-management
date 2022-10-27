@@ -23,13 +23,14 @@ const classes = {
 const SignIn = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const data = {
-		email_id: email,
-		password: password,
-	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('adf');
+		const data = {
+			email_id: email,
+			password: password,
+		};
 		var axios = require('axios');
 		var config = {
 			method: 'post',
