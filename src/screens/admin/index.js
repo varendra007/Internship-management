@@ -29,6 +29,16 @@ var actions = [
 		description: 'Add Project',
 		href: '/add-project',
 	},
+	{
+		title: 'All Mentors',
+		description: 'All Mentors',
+		href: '/all-mentor',
+	},
+	{
+		title: 'Completed Inerns',
+		description: 'All Mentors',
+		href: '/completed-interns',
+	},
 ];
 
 const AdminScreen = () => {

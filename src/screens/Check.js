@@ -69,7 +69,7 @@ const Check = () => {
 			}}
 		>
 			<h1>
-				Chuitya hai tu <span style={{ color: 'red' }}>CHUTIYA</span>
+				Nalla hai tu <span style={{ color: 'red' }}>Nalla</span>
 			</h1>
 			{/* <div
 				style={{
