@@ -5,7 +5,7 @@ const classes = {
 	button: {
 		border: 'none',
 		borderRadius: '100px',
-		width: '150px',
+		width: '200px',
 		height: '55px',
 		backgroundColor: '#fa2d64',
 		color: '#ffffff',
@@ -27,6 +27,14 @@ const AssignProject = () => {
 	const [end_date, setEndDate] = useState('');
 	const [err, setErr] = useState('');
 	const [myInterns, setMyInterns] = useState([]);
+	const [isSuccess, setIsSuccess] = useState(false);
+	useEffect(() => {
+		if (isSuccess) {
+			setTimeout(() => {
+				window.history.go(-1);
+			}, 2000);
+		}
+	}, [isSuccess]);
 	const getMyInterns = () => {
 		var axios = require('axios');
 		var config = {
@@ -80,6 +88,7 @@ const AssignProject = () => {
 				}
 				setErr('');
 				console.log(JSON.stringify(response.data));
+				setIsSuccess(true);
 			})
 			.catch((err) => {
 				console.log(err.response);
@@ -115,7 +124,7 @@ const AssignProject = () => {
 						...classes.fontname,
 					}}
 				>
-					AssignProject
+					Assign Project
 				</h1>
 				<form
 					style={{
@@ -170,11 +179,11 @@ const AssignProject = () => {
 					<br />
 					<TextField
 						id="outlined-basic"
-						label="Assigned Date"
+						label="End Date"
 						name="email"
 						variant="outlined"
 						type="date"
-						required
+						// required
 						value={end_date}
 						onChange={(evt) => setEndDate(evt.target.value)}
 						style={{ width: '80%', ...classes.fontname }}
@@ -186,6 +195,9 @@ const AssignProject = () => {
 					<br />
 				</form>
 				<div style={{ color: 'red' }}>{err}</div>
+				{isSuccess && (
+					<div style={{ color: 'lightseagreen' }}>Assigned Successfully</div>
+				)}
 			</div>
 		</div>
 	);
