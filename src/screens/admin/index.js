@@ -13,6 +13,21 @@ var actions = [
 		description: 'Add Employee',
 		href: '/add-employee',
 	},
+	{
+		title: 'View Interns',
+		description: 'View Interns',
+		href: '/get-interns',
+	},
+	{
+		title: 'View Employee',
+		description: 'View Employee',
+		href: '/get-employee',
+	},
+	{
+		title: 'Add Project',
+		description: 'Add Project',
+		href: '/add-project',
+	},
 ];
 
 const AdminScreen = () => {
