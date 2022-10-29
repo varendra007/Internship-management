@@ -4,13 +4,13 @@ import buttons from '../../component/buttons';
 import host from '../../data/host';
 
 // var users = [];
-const AddIntern = () => {
+const AddEmployee = () => {
 	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		var axios = require('axios');
 		var config = {
 			method: 'get',
-			url: `${host.host}/unassigned-intern`,
+			url: `${host.host}/unassigned-employee`,
 			headers: {
 				Credentials: `Bearer ${window.localStorage.getItem('dbisToken')}`,
 			},
@@ -42,7 +42,7 @@ const AddIntern = () => {
 								<th className="thx">Last Name</th>
 								<th className="thx">Phone number</th>
 								<th className="thx">Email Id</th>
-								<th className="thx">Assign Intern</th>
+								<th className="thx">Assign Employee</th>
 								{/* <th className="thx">Delete</th> */}
 							</tr>
 						</thead>
@@ -59,7 +59,7 @@ const AddIntern = () => {
 												style={buttons.button}
 												className="defaultButtonHover1"
 												onClick={() => {
-													window.location.href = `/assign-intern?id=${el.email_id}`;
+													window.location.href = `/assign-employee?id=${el.email_id}`;
 												}}
 											>
 												Assign {el.first_name}
@@ -79,4 +79,4 @@ const AddIntern = () => {
 	);
 };
 
-export default AddIntern;
+export default AddEmployee;

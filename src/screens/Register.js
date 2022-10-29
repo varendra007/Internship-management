@@ -401,6 +401,7 @@ const Register = () => {
 							id="demo-simple-select"
 							value={gender}
 							// label="Gender"
+							required
 							onChange={(evt) => setGender(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
 						>
@@ -414,6 +415,7 @@ const Register = () => {
 							labelId="input-appliedfor"
 							id="demoinput-simple-select"
 							value={appliedFor}
+							required
 							// label="Gender"
 							onChange={(evt) => setAppliedFor(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}

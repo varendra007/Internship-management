@@ -8,6 +8,9 @@ import Check from './screens/Check';
 import InternScreen from './screens/Intern';
 import EmployeeScreen from './screens/Employee';
 import AddIntern from './screens/admin/AddIntern';
+import AddEmployee from './screens/admin/AddEmployee';
+import AssignInternForm from './screens/admin/AssignInternForm';
+import AssignEmployeeForm from './screens/admin/AssignEmployee';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -40,6 +43,18 @@ const router = createBrowserRouter([
 	{
 		path: '/add-intern',
 		element: <AddIntern />,
+	},
+	{
+		path: '/add-employee',
+		element: <AddEmployee />,
+	},
+	{
+		path: '/assign-intern',
+		element: <AssignInternForm />,
+	},
+	{
+		path: '/assign-employee',
+		element: <AssignEmployeeForm />,
 	},
 ]);
 function App() {

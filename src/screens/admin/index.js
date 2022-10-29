@@ -8,6 +8,11 @@ var actions = [
 		description: 'Add Intern',
 		href: '/add-intern',
 	},
+	{
+		title: 'Add Employee',
+		description: 'Add Employee',
+		href: '/add-employee',
+	},
 ];
 
 const AdminScreen = () => {
