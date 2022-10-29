@@ -6,7 +6,7 @@ import host from '../../data/host';
 // var projects = [];
 const GetProjects = () => {
 	const [projects, setprojects] = useState([]);
-	useEffect(() => {
+	const getAllProjects = () => {
 		var axios = require('axios');
 		var config = {
 			method: 'get',
@@ -23,6 +23,9 @@ const GetProjects = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+	useEffect(() => {
+		getAllProjects();
 	}, []);
 	return (
 		<div style={{ width: '100vw', overflow: 'hidden' }}>
@@ -41,8 +44,8 @@ const GetProjects = () => {
 								<th className="thx">Project Id</th>
 								<th className="thx">Topic</th>
 								<th className="thx">Description</th>
-								<th className="thx">Assign Intern</th>
-								{/* <th className="thx">Delete</th> */}
+								<th className="thx">View Interns</th>
+								<th className="thx">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -63,9 +66,33 @@ const GetProjects = () => {
 												View Interns
 											</button>
 										</td>
-										{/* <td className="tdx">
-											<button className="defaultButtonHover1">Delete</button>
-										</td> */}
+										<td className="tdx">
+											<button
+												style={buttons.button}
+												className="defaultButtonHover1"
+												onClick={() => {
+													var axios = require('axios');
+													var config = {
+														method: 'delete',
+														url: `${host.host}/project?project_id=${el.project_id}`,
+
+														headers: {
+															Credentials: `Bearer ${window.localStorage.getItem(
+																'dbisToken'
+															)}`,
+														},
+													};
+													axios(config)
+														.then((res) => {
+															console.log(res.data);
+															getAllProjects();
+														})
+														.catch((err) => console.log(err));
+												}}
+											>
+												Delete
+											</button>
+										</td>
 									</tr>
 								);
 							})}

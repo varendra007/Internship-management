@@ -42,7 +42,7 @@ const AssignProject = () => {
 		var axios = require('axios');
 		var config = {
 			method: 'post',
-			url: `${host.host}/assign-project`,
+			url: `${host.host}/assign-intern-to-project`,
 			data: data,
 			headers: {
 				Credentials: `Bearer ${localStorage.getItem('dbisToken')}`,

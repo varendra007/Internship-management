@@ -6,11 +6,11 @@ import host from '../../data/host';
 // var users = [];
 const ViewProjectInterns = () => {
 	const [users, setUsers] = useState([]);
-	useEffect(() => {
+	const getAllUsers = () => {
 		var axios = require('axios');
 		var config = {
 			method: 'get',
-			url: `${host.host}/assigned-projects?project_id=${new URL(
+			url: `${host.host}/assigned-interns-to-projects?project_id=${new URL(
 				window.location.href
 			).searchParams.get('id')}`,
 			headers: {
@@ -25,6 +25,9 @@ const ViewProjectInterns = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+	useEffect(() => {
+		getAllUsers();
 	}, []);
 	return (
 		<div style={{ width: '100vw', overflow: 'hidden' }}>
@@ -45,7 +48,7 @@ const ViewProjectInterns = () => {
 								<th className="thx">Phone number</th>
 								<th className="thx">Email Id</th>
 								<th className="thx">View Profile</th>
-								{/* <th className="thx">Delete</th> */}
+								<th className="thx">Remove from Project</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -67,9 +70,33 @@ const ViewProjectInterns = () => {
 												View Profile
 											</button>
 										</td>
-										{/* <td className="tdx">
-											<button className="defaultButtonHover1">Delete</button>
-										</td> */}
+										<td className="tdx">
+											<button
+												style={buttons.button}
+												className="defaultButtonHover1"
+												onClick={() => {
+													var axios = require('axios');
+													var config = {
+														method: 'delete',
+														url: `${host.host}/unassign-intern-to-project?intern_id=${el.email_id}`,
+
+														headers: {
+															Credentials: `Bearer ${window.localStorage.getItem(
+																'dbisToken'
+															)}`,
+														},
+													};
+													axios(config)
+														.then((res) => {
+															console.log(res.data);
+															getAllUsers();
+														})
+														.catch((err) => console.log(err));
+												}}
+											>
+												Remove
+											</button>
+										</td>
 									</tr>
 								);
 							})}
