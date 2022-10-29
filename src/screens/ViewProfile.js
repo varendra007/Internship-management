@@ -450,7 +450,6 @@ const ViewProfile = () => {
 						>
 							<MenuItem value={'intern'}>Intern</MenuItem>
 							<MenuItem value={'employee'}>Employee</MenuItem>
-							<MenuItem value={'others'}>Others</MenuItem>
 						</Select>
 						<br />
 					</>
