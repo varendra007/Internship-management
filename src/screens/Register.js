@@ -41,6 +41,9 @@ const Register = () => {
 	const [passingYear, setPassingYear] = useState(null);
 	const [err, setErr] = useState('');
 	const [isSubmitPressed, setIsSubmitPressed] = useState(false);
+	const [isUserFound, setIsUserFound] = useState(false);
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+
 	useEffect(() => {
 		if (university === 0) {
 			setErr('Please Enter your university details');
@@ -50,8 +53,31 @@ const Register = () => {
 		}
 	}, [university]);
 	useEffect(() => {
-		var axios = require('axios');
+		// ! Checking if profile exists alredy
+
 		var config = {
+			method: 'get',
+			url: `${host.host}/profile`,
+			headers: {
+				Credentials: `Bearer ${token}`,
+			},
+		};
+		var axios = require('axios');
+		axios(config)
+			.then((res) => {
+				console.log(JSON.stringify(res.data));
+				if (res.status === 200) {
+					setIsUserFound(true);
+				} else {
+					setIsUserFound(false);
+				}
+			})
+			.catch((err) => {
+				setIsUserFound(false);
+			});
+		// ! getting the list of all universities
+
+		config = {
 			method: 'get',
 			url: `${host.host}/university`,
 		};
@@ -64,6 +90,12 @@ const Register = () => {
 				console.log(err);
 			});
 	}, []);
+
+	useEffect(() => {
+		if (isUserFound) {
+			window.location.href = '/';
+		}
+	}, [isUserFound]);
 
 	const handleSubmit = (e) => {
 		setIsSubmitPressed(true);

@@ -39,9 +39,11 @@ const SignIn = () => {
 		};
 		axios(config)
 			.then(function (response) {
-				console.log(JSON.stringify(response.data));
+				console.log(JSON.stringify(response.data.access_token));
 				if (response.status === 200) {
 					console.log('success');
+					window.localStorage.setItem('dbisToken', response.data.access_token);
+					window.location.href = '/profile';
 				}
 				console.log(JSON.stringify(response.data));
 			})
