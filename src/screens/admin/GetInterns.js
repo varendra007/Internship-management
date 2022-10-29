@@ -6,7 +6,7 @@ import host from '../../data/host';
 // var users = [];
 const GetInterns = () => {
 	const [users, setUsers] = useState([]);
-	useEffect(() => {
+	const assignUser = () => {
 		var axios = require('axios');
 		var config = {
 			method: 'get',
@@ -23,6 +23,9 @@ const GetInterns = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+	useEffect(() => {
+		assignUser();
 	}, []);
 	return (
 		<div style={{ width: '100vw', overflow: 'hidden' }}>
@@ -43,7 +46,7 @@ const GetInterns = () => {
 								<th className="thx">Phone number</th>
 								<th className="thx">Email Id</th>
 								<th className="thx">Assign Intern</th>
-								{/* <th className="thx">Delete</th> */}
+								<th className="thx">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -65,9 +68,33 @@ const GetInterns = () => {
 												Assign {el.first_name}
 											</button>
 										</td>
-										{/* <td className="tdx">
-											<button className="defaultButtonHover1">Delete</button>
-										</td> */}
+										<td className="tdx">
+											<button
+												style={buttons.button}
+												className="defaultButtonHover1"
+												onClick={() => {
+													var axios = require('axios');
+													var config = {
+														method: 'delete',
+														url: `${host.host}/intern?email_id=${el.email_id}`,
+
+														headers: {
+															Credentials: `Bearer ${window.localStorage.getItem(
+																'dbisToken'
+															)}`,
+														},
+													};
+													axios(config)
+														.then((res) => {
+															console.log(res.data);
+															assignUser();
+														})
+														.catch((err) => console.log(err));
+												}}
+											>
+												Delete
+											</button>
+										</td>
 									</tr>
 								);
 							})}
