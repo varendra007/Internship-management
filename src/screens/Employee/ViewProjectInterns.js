@@ -6,6 +6,7 @@ import host from '../../data/host';
 // var users = [];
 const ViewProjectInterns = () => {
 	const [users, setUsers] = useState([]);
+	const [myInterns, setMyInterns] = useState([]);
 	const getAllUsers = () => {
 		var axios = require('axios');
 		var config = {
@@ -26,9 +27,37 @@ const ViewProjectInterns = () => {
 				console.log(err);
 			});
 	};
+	const getMyInterns = () => {
+		var axios = require('axios');
+		var config = {
+			method: 'get',
+			url: `${host.host}/get-my-interns`,
+			headers: {
+				Credentials: `Bearer ${window.localStorage.getItem('dbisToken')}`,
+			},
+		};
+
+		axios(config)
+			.then((res) => {
+				setMyInterns(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
 	useEffect(() => {
 		getAllUsers();
+		getMyInterns();
 	}, []);
+
+	const checkIsMyIntern = (email_id) => {
+		var isMyIntern = false;
+		myInterns.forEach((element) => {
+			if (element.email_id === email_id) isMyIntern = true;
+		});
+		return isMyIntern;
+	};
 	return (
 		<div style={{ width: '100vw', overflow: 'hidden' }}>
 			<div
@@ -72,7 +101,11 @@ const ViewProjectInterns = () => {
 										</td>
 										<td className="tdx">
 											<button
-												style={buttons.button}
+												style={{
+													...buttons.button,
+													background: !checkIsMyIntern(el.email_id) && 'gray',
+													cursor: !checkIsMyIntern(el.email_id) && 'default',
+												}}
 												className="defaultButtonHover1"
 												onClick={() => {
 													var axios = require('axios');
@@ -93,6 +126,7 @@ const ViewProjectInterns = () => {
 														})
 														.catch((err) => console.log(err));
 												}}
+												disabled={!checkIsMyIntern(el.email_id)}
 											>
 												Remove
 											</button>

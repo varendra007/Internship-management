@@ -1,5 +1,5 @@
-import { TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
 const classes = {
 	button: {
@@ -26,6 +26,30 @@ const AssignProject = () => {
 	const [assigned_date, setAssignedDate] = useState('');
 	const [end_date, setEndDate] = useState('');
 	const [err, setErr] = useState('');
+	const [myInterns, setMyInterns] = useState([]);
+	const getMyInterns = () => {
+		var axios = require('axios');
+		var config = {
+			method: 'get',
+			url: `${host.host}/get-my-interns`,
+			headers: {
+				Credentials: `Bearer ${window.localStorage.getItem('dbisToken')}`,
+			},
+		};
+
+		axios(config)
+			.then((res) => {
+				setMyInterns(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	useEffect(() => {
+		getMyInterns();
+	}, []);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const data = {
@@ -115,17 +139,22 @@ const AssignProject = () => {
 						style={{ width: '80%', ...classes.fontname }}
 					/>
 					<br />
-					<TextField
-						id="outlined-basic"
-						label="Intern Id"
-						name="email"
-						variant="outlined"
-						type="text"
-						required
+					<InputLabel id="demo-simple-select-label">Intern Id</InputLabel>
+					<Select
+						labelId="demo-simple-select-label"
+						id="demo-simple-select"
 						value={intern_id}
+						// label="Gender"
+						required
 						onChange={(evt) => setInternId(evt.target.value)}
 						style={{ width: '80%', ...classes.fontname }}
-					/>
+					>
+						{myInterns.map((el, ind) => (
+							<MenuItem value={el.email_id}>
+								{el.first_name} {el.last_name} ({el.email_id})
+							</MenuItem>
+						))}
+					</Select>
 					<br />
 					<TextField
 						id="outlined-basic"
