@@ -13,6 +13,11 @@ var actions = [
 		description: 'Assign Project',
 		href: '/assign-project',
 	},
+	{
+		title: 'Get Project',
+		description: 'Get Project',
+		href: '/get-projects',
+	},
 ];
 
 const EmployeeScreen = () => {
