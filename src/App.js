@@ -14,6 +14,7 @@ import AssignEmployeeForm from './screens/admin/AssignEmployee';
 import GetInterns from './screens/admin/GetInterns';
 import GetEmployees from './screens/admin/GetEmployees';
 import AddProject from './screens/Employee/AddProject';
+import AssignProject from './screens/Employee/AssignProject';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
 	{
 		path: '/add-project',
 		element: <AddProject />,
+	},
+	{
+		path: '/assign-project',
+		element: <AssignProject />,
 	},
 ]);
 function App() {
