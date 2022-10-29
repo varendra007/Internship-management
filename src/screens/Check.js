@@ -68,9 +68,7 @@ const Check = () => {
 				justifyContent: 'center',
 			}}
 		>
-			<h1>
-				Nalla hai tu <span style={{ color: 'red' }}>Nalla</span>
-			</h1>
+			<h1>{/* Nall. hai tu <span style={{ color: 'red' }}>Nalla</span> */}</h1>
 			{/* <div
 				style={{
 					display: 'flex',

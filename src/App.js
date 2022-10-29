@@ -20,6 +20,7 @@ import ViewProjectInterns from './screens/Employee/ViewProjectInterns';
 import ViewProfile from './screens/ViewProfile';
 import AllMentorsWithStudents from './screens/admin/AllMentorsWithInterns';
 import CompletedInterns from './screens/admin/CompletedInterns';
+import InternCompleted from './screens/Employee/InternCompleted';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
 	{
 		path: '/completed-interns',
 		element: <CompletedInterns />,
+	},
+	{
+		path: '/intern-completed',
+		element: <InternCompleted />,
 	},
 ]);
 function App() {

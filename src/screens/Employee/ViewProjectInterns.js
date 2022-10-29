@@ -104,7 +104,9 @@ const ViewProjectInterns = () => {
 												style={{
 													...buttons.button,
 													background: !checkIsMyIntern(el.email_id) && 'gray',
-													cursor: !checkIsMyIntern(el.email_id) && 'default',
+													cursor: checkIsMyIntern(el.email_id)
+														? 'pointer'
+														: 'default',
 												}}
 												className="defaultButtonHover1"
 												onClick={() => {

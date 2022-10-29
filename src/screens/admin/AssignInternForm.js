@@ -30,6 +30,15 @@ const AssignInternForm = () => {
 	const [allMentors, setAllMentors] = useState([]);
 	const [location, setLocation] = useState('1');
 	const [allLocations, setAllLocations] = useState([]);
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [err, setIsErr] = useState('');
+	useEffect(() => {
+		if (isSuccess) {
+			setTimeout(() => {
+				window.history.go(-1);
+			}, 2000);
+		}
+	}, [isSuccess]);
 	useEffect(() => {
 		var axios = require('axios');
 		var config = {
@@ -74,6 +83,11 @@ const AssignInternForm = () => {
 			expected_end_date: endDate,
 			location_id: location,
 		};
+		for (const key in dataIntern) {
+			if (dataIntern[key] === '') {
+				delete dataIntern[key];
+			}
+		}
 		var mentor_data = {
 			mentor_id: mentor,
 			intern_id: email,
@@ -103,12 +117,20 @@ const AssignInternForm = () => {
 						.then((response) => {
 							console.log('mentorsuccess');
 							console.log(response);
+							setIsErr('');
+							setIsSuccess(true);
 						})
-						.catch((err) => console.log(err));
+						.catch((err) => {
+							setIsSuccess(false);
+							console.log(err);
+							setIsErr('something went wrong');
+						});
 				}
 			})
 			.catch((err) => {
+				setIsSuccess(false);
 				console.log(err);
+				setIsErr('something went wrong');
 			});
 	};
 
@@ -140,7 +162,7 @@ const AssignInternForm = () => {
 						...classes.fontname,
 					}}
 				>
-					AssignInternForm
+					Assign Intern
 				</h1>
 				<form
 					style={{
@@ -234,10 +256,20 @@ const AssignInternForm = () => {
 					</Select>
 					<br />
 					<button style={classes.button} className="defaultButtonHover1">
-						AssignInternForm
+						Assign Intern
 					</button>
 					<br />
 				</form>
+				{isSuccess && (
+					<div style={{ color: 'lightseagreen' }}>
+						Mentor assigned Successfully
+					</div>
+				)}
+				{err && (
+					<div style={{ color: 'red' }}>
+						Something went wrong please try again later
+					</div>
+				)}
 			</div>
 		</div>
 	);

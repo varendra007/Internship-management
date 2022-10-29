@@ -2,7 +2,8 @@ import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import host from '../../data/host';
-
+import getDataFromToken from '../../utils/getDataFromJWT';
+var user = getDataFromToken(window.localStorage.getItem('dbisToken'));
 var actions = [
 	{
 		title: 'Add Intern',
@@ -38,6 +39,11 @@ var actions = [
 		title: 'Completed Inerns',
 		description: 'All Mentors',
 		href: '/completed-interns',
+	},
+	{
+		title: 'View Profile',
+		description: 'View Your Profile',
+		href: `/view-profile?id=${user.email_id}`,
 	},
 ];
 

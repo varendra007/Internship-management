@@ -1,11 +1,11 @@
 import { TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
 const classes = {
 	button: {
 		border: 'none',
 		borderRadius: '100px',
-		width: '150px',
+		width: '200px',
 		height: '55px',
 		backgroundColor: '#fa2d64',
 		color: '#ffffff',
@@ -25,6 +25,17 @@ const AddProject = () => {
 	const [topic, setTopic] = useState('');
 	const [description, setDescription] = useState('');
 	const [err, setErr] = useState('');
+	const [isSuccess, setIsSuccess] = useState(false);
+	useEffect(() => {
+		if (isSuccess) {
+			setIsSuccess(true);
+			setTimeout(() => {
+				window.history.go(-1);
+			}, 2000);
+		} else {
+			setIsSuccess(false);
+		}
+	}, [isSuccess]);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const data = {
@@ -46,9 +57,11 @@ const AddProject = () => {
 			.then(function (response) {
 				console.log(JSON.stringify(response.data));
 				setErr('');
+				setIsSuccess(true);
 			})
 			.catch((err) => {
 				console.log(err.response);
+				setIsSuccess(false);
 				setErr(err.response.data.detail);
 			});
 	};
@@ -81,7 +94,7 @@ const AddProject = () => {
 						...classes.fontname,
 					}}
 				>
-					AddProject
+					Add New Project
 				</h1>
 				<form
 					style={{
@@ -130,11 +143,16 @@ const AddProject = () => {
 					/>
 					<br />
 					<button style={classes.button} className="defaultButtonHover1">
-						AddProject
+						Add Project
 					</button>
 					<br />
 				</form>
 				<div style={{ color: 'red' }}>{err}</div>
+				{isSuccess && (
+					<div style={{ color: 'lightseagreen' }}>
+						Project Added Successfully
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -35,6 +35,7 @@ const AllMentorsWithStudents = () => {
 				className="w-full overflow-auto"
 				style={{ width: '100vw', overflow: 'auto' }}
 			>
+				<h2>List of all mentors with their interns</h2>
 				{users.length > 0 && (
 					<table
 						className="overflow-scroll"

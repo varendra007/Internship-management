@@ -27,6 +27,17 @@ const AssignEmployeeForm = () => {
 	const [stipend, setStipend] = useState(0);
 	const [location, setLocation] = useState('1');
 	const [allLocations, setAllLocations] = useState([]);
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [err, setIsErr] = useState('');
+	useEffect(() => {
+		if (isSuccess) {
+			setTimeout(() => {
+				window.history.go(-1);
+			}, 2000);
+		} else {
+			setIsSuccess(false);
+		}
+	}, [isSuccess]);
 	useEffect(() => {
 		var axios = require('axios');
 		var config = {
@@ -63,9 +74,13 @@ const AssignEmployeeForm = () => {
 		axios(config)
 			.then((res) => {
 				console.log(res.data);
+				setIsSuccess(true);
+				setIsErr('');
 			})
 			.catch((err) => {
 				console.log(err);
+				setIsSuccess(false);
+				setIsErr('something went wrong');
 			});
 	};
 
@@ -97,7 +112,7 @@ const AssignEmployeeForm = () => {
 						...classes.fontname,
 					}}
 				>
-					AssignEmployeeForm
+					Assign Employee
 				</h1>
 				<form
 					style={{
@@ -150,10 +165,18 @@ const AssignEmployeeForm = () => {
 					</Select>
 					<br />
 					<button style={classes.button} className="defaultButtonHover1">
-						AssignEmployeeForm
+						Assign Employee
 					</button>
 					<br />
 				</form>
+				{isSuccess && (
+					<div style={{ color: 'lightseagreen' }}>Assigned Successfully</div>
+				)}
+				{err && (
+					<div style={{ color: 'red' }}>
+						Something went wrong please try again later
+					</div>
+				)}
 			</div>
 		</div>
 	);

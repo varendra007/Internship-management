@@ -43,10 +43,8 @@ const ViewProfile = () => {
 	const [passingYear, setPassingYear] = useState(null);
 	const [err, setErr] = useState('');
 	const [isSubmitPressed, setIsSubmitPressed] = useState(false);
-	const [isUserFound, setIsUserFound] = useState(false);
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
-	const [role, setRole] = useState('0');
-
+	const [isSuccess, setIsSuccess] = useState(false);
 	const [isEditable, setIsEditable] = useState(false);
 	useEffect(() => {}, [token]);
 
@@ -102,31 +100,11 @@ const ViewProfile = () => {
 		}
 	}, [university]);
 	useEffect(() => {
-		// ! Checking if profile exists alredy
-
-		var config = {
-			method: 'get',
-			url: `${host.host}/profile`,
-			headers: {
-				Credentials: `Bearer ${token}`,
-			},
-		};
 		var axios = require('axios');
-		axios(config)
-			.then((res) => {
-				// console.log(JSON.stringify(res.data));
-				if (res.status === 200) {
-					setIsUserFound(true);
-				} else {
-					setIsUserFound(false);
-				}
-			})
-			.catch((err) => {
-				setIsUserFound(false);
-			});
+
 		// ! getting the list of all universities
 
-		config = {
+		var config = {
 			method: 'get',
 			url: `${host.host}/university`,
 		};
@@ -139,7 +117,11 @@ const ViewProfile = () => {
 				console.log(err);
 			});
 	}, [token]);
-
+	useEffect(() => {
+		setTimeout(() => {
+			setIsSuccess(false);
+		}, 2000);
+	}, [isSuccess]);
 	const handleSubmit = (e) => {
 		setIsSubmitPressed(true);
 		e.preventDefault();
@@ -191,6 +173,7 @@ const ViewProfile = () => {
 		axios(config)
 			.then((res) => {
 				console.log(res.data);
+				setIsSuccess(true);
 				// if (res.status === 200) {
 				// 	config = {
 				// 		method: 'post',
@@ -217,6 +200,7 @@ const ViewProfile = () => {
 			.catch((err) => {
 				console.log(err);
 				console.warn('Profile not updated');
+				setIsSuccess(false);
 			});
 	};
 
@@ -248,7 +232,7 @@ const ViewProfile = () => {
 						...classes.fontname,
 					}}
 				>
-					Profile details
+					Profile details of {firstName}
 				</h1>
 				<form
 					style={{
@@ -304,7 +288,7 @@ const ViewProfile = () => {
 							label="Phone"
 							name="phone"
 							variant="outlined"
-							type="number"
+							type="tel"
 							required
 							value={phone}
 							onChange={(evt) => setPhone(evt.target.value)}
@@ -352,10 +336,10 @@ const ViewProfile = () => {
 						<br />
 						<TextField
 							id="outlined-basic"
-							label="Zipcode"
-							name="zipcode"
+							label="Phone"
+							name="phone"
 							variant="outlined"
-							type="number"
+							type="tel"
 							required
 							value={zipcode}
 							onChange={(evt) => setZipcode(evt.target.value)}
@@ -517,9 +501,16 @@ const ViewProfile = () => {
 							Update profile
 						</button>
 					)}
-					<br />
 				</form>
 				{err && isSubmitPressed && <div style={{ color: 'red' }}> {err}</div>}
+				{isSuccess && (
+					<div style={{ color: 'lightseagreen' }}>
+						<br />
+						Profile updated Successfully
+						<br />
+						<br />
+					</div>
+				)}
 			</div>
 		</div>
 	);

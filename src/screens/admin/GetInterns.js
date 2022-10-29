@@ -29,79 +29,81 @@ const GetInterns = () => {
 	}, []);
 	return (
 		<div style={{ width: '100vw', overflow: 'hidden' }}>
-			<div
-				id="tableLandlord"
-				className="w-full overflow-auto"
-				style={{ width: '100vw', overflow: 'auto' }}
-			>
-				{users.length > 0 && (
-					<table
-						className="overflow-scroll"
-						style={{ width: '100%', textAlign: 'center' }}
-					>
-						<thead>
-							<tr>
-								<th className="thx">First Name</th>
-								<th className="thx">Last Name</th>
-								<th className="thx">Phone number</th>
-								<th className="thx">Email Id</th>
-								<th className="thx">Assign Intern</th>
-								<th className="thx">Delete</th>
-							</tr>
-						</thead>
-						<tbody>
-							{users.map((el, ind) => {
-								return (
-									<tr key={el.details.phone}>
-										<td className="tdx">{el.details.first_name}</td>
-										<td className="tdx">{el.details.last_name}</td>
-										<td className="tdx">{el.details.phone}</td>
-										<td className="tdx">{el.email_id}</td>
-										<td className="tdx">
-											<button
-												style={buttons.button}
-												className="defaultButtonHover1"
-												onClick={() => {
-													window.location.href = `/assign-intern?id=${el.email_id}`;
-												}}
-											>
-												Assign {el.first_name}
-											</button>
-										</td>
-										<td className="tdx">
-											<button
-												style={buttons.button}
-												className="defaultButtonHover1"
-												onClick={() => {
-													var axios = require('axios');
-													var config = {
-														method: 'delete',
-														url: `${host.host}/intern?email_id=${el.email_id}`,
+			{users.length > 0 ? (
+				<div
+					id="tableLandlord"
+					className="w-full overflow-auto"
+					style={{ width: '100vw', overflow: 'auto' }}
+				>
+					<h2>List of all interns</h2>
+					{users.length > 0 && (
+						<table
+							className="overflow-scroll"
+							style={{ width: '100%', textAlign: 'center' }}
+						>
+							<thead>
+								<tr>
+									<th className="thx">First Name</th>
+									<th className="thx">Last Name</th>
+									<th className="thx">Phone number</th>
+									<th className="thx">Email Id</th>
+									<th className="thx">Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								{users.map((el, ind) => {
+									return (
+										<tr key={el.details.phone}>
+											<td className="tdx">{el.details.first_name}</td>
+											<td className="tdx">{el.details.last_name}</td>
+											<td className="tdx">{el.details.phone}</td>
+											<td className="tdx">{el.email_id}</td>
 
-														headers: {
-															Credentials: `Bearer ${window.localStorage.getItem(
-																'dbisToken'
-															)}`,
-														},
-													};
-													axios(config)
-														.then((res) => {
-															console.log(res.data);
-															assignUser();
-														})
-														.catch((err) => console.log(err));
-												}}
-											>
-												Delete
-											</button>
-										</td>
-									</tr>
-								);
-							})}
-						</tbody>
-					</table>
-				)}
-			</div>
+											<td className="tdx">
+												<button
+													style={buttons.button}
+													className="defaultButtonHover1"
+													onClick={() => {
+														if (
+															window.confirm(
+																'Are you sure to delete intern?'
+															) === true
+														) {
+															var axios = require('axios');
+															var config = {
+																method: 'delete',
+																url: `${host.host}/intern?email_id=${el.email_id}`,
+
+																headers: {
+																	Credentials: `Bearer ${window.localStorage.getItem(
+																		'dbisToken'
+																	)}`,
+																},
+															};
+															axios(config)
+																.then((res) => {
+																	console.log(res.data);
+																	assignUser();
+																})
+																.catch((err) => console.log(err));
+														}
+													}}
+												>
+													Delete
+												</button>
+											</td>
+										</tr>
+									);
+								})}
+							</tbody>
+						</table>
+					)}
+				</div>
+			) : (
+				<div>
+					<h2>No Interns found please give some interns</h2>
+				</div>
+			)}
 		</div>
 	);
 };
