@@ -5,11 +5,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import SignUp from './screens/SignUp';
 import SignIn from './screens/SignIn';
 import Register from './screens/Register';
-
+import Check from './screens/Check';
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <SignUp />,
+		element: <Check />,
 	},
 	{
 		path: '/signin',
