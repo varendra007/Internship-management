@@ -46,6 +46,10 @@ const SignUp = () => {
 		axios(config)
 			.then((res) => {
 				console.log(JSON.stringify(res.data));
+				if (res.status === 200) {
+					window.localStorage.setItem('dbisToken', res.data.access_token);
+					window.location.href = '/profile';
+				}
 			})
 			.catch((err) => {
 				console.log(err);
