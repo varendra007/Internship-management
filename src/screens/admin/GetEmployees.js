@@ -6,7 +6,7 @@ import host from '../../data/host';
 // var users = [];
 const GetEmployees = () => {
 	const [users, setUsers] = useState([]);
-	useEffect(() => {
+	const assignUser = () => {
 		var axios = require('axios');
 		var config = {
 			method: 'get',
@@ -23,6 +23,9 @@ const GetEmployees = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+	useEffect(() => {
+		assignUser();
 	}, []);
 	return (
 		<div style={{ width: '100vw', overflow: 'hidden' }}>
@@ -42,8 +45,8 @@ const GetEmployees = () => {
 								<th className="thx">Last Name</th>
 								<th className="thx">Phone number</th>
 								<th className="thx">Email Id</th>
-								<th className="thx">Assign Intern</th>
-								{/* <th className="thx">Delete</th> */}
+								<th className="thx">View</th>
+								<th className="thx">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -59,15 +62,39 @@ const GetEmployees = () => {
 												style={buttons.button}
 												className="defaultButtonHover1"
 												onClick={() => {
-													window.location.href = `/assign-intern?id=${el.email_id}`;
+													window.location.href = `/view-profile?id=${el.email_id}`;
 												}}
 											>
-												Assign {el.first_name}
+												View
 											</button>
 										</td>
-										{/* <td className="tdx">
-											<button className="defaultButtonHover1">Delete</button>
-										</td> */}
+										<td className="tdx">
+											<button
+												style={buttons.button}
+												className="defaultButtonHover1"
+												onClick={() => {
+													var axios = require('axios');
+													var config = {
+														method: 'delete',
+														url: `${host.host}/employee?email_id=${el.email_id}`,
+
+														headers: {
+															Credentials: `Bearer ${window.localStorage.getItem(
+																'dbisToken'
+															)}`,
+														},
+													};
+													axios(config)
+														.then((res) => {
+															console.log(res.data);
+															assignUser();
+														})
+														.catch((err) => console.log(err));
+												}}
+											>
+												Delete
+											</button>
+										</td>
 									</tr>
 								);
 							})}

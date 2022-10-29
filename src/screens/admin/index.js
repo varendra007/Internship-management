@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import host from '../../data/host';
 
 var actions = [
 	{
@@ -91,6 +92,53 @@ const AdminScreen = () => {
 							</div>
 						</Grid>
 					))}
+					<Grid
+						item
+						xs={6}
+						sm={4}
+						md={2}
+						style={{
+							height: '250px',
+							background:
+								'linear-gradient(to right, hsla(14, 93%, 53%, 1) 0%, #fa2d64  100%, #9bd9e8 100%) repeat scroll 0 0',
+							margin: '10px',
+							borderRadius: '12px',
+							cursor: 'pointer',
+							transform: 'revert-layer',
+							color: 'white',
+							display: 'flex',
+							// justifyContent: 'center',
+							alignItems: 'center',
+							flexDirection: 'column',
+						}}
+						onClick={() => {
+							var axios = require('axios');
+							var config = {
+								method: 'delete',
+								url: `${host.host}/profile`,
+								headers: {
+									Credentials: `Bearer ${window.localStorage.getItem(
+										'dbisToken'
+									)}`,
+								},
+							};
+							axios(config)
+								.then((res) => {
+									console.log(res.data);
+									window.location = '/signup';
+								})
+								.catch((err) => console.log(err));
+						}}
+					>
+						<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
+							Delete Profile
+						</h2>
+						<div style={{ width: '82%' }}>
+							<p style={{ textAlign: 'center', fontSize: '21px' }}>
+								Delete Profile
+							</p>
+						</div>
+					</Grid>
 				</Grid>
 			</Box>
 		</div>

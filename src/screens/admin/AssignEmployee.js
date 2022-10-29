@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
 const classes = {
@@ -25,12 +25,29 @@ const AssignEmployeeForm = () => {
 		new URL(window.location.href).searchParams.get('id')
 	);
 	const [stipend, setStipend] = useState(0);
+	const [location, setLocation] = useState('1');
+	const [allLocations, setAllLocations] = useState([]);
+	useEffect(() => {
+		var axios = require('axios');
+		var config = {
+			method: 'get',
+			url: `${host.host}/location`,
+		};
+		axios(config)
+			.then((res) => {
+				setAllLocations(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		var data = {
 			email_id: email,
 			salary: parseInt(stipend),
+			location_id: location,
 		};
 
 		var config = {
@@ -115,6 +132,22 @@ const AssignEmployeeForm = () => {
 						onChange={(evt) => setStipend(evt.target.value)}
 						style={{ width: '80%', ...classes.fontname }}
 					/>
+					<br />
+					<InputLabel id="input-university">University</InputLabel>
+					<Select
+						labelId="input-university"
+						id="demo-sisdfmple-select"
+						value={location}
+						// label="Gender"
+						onChange={(evt) => setLocation(evt.target.value)}
+						style={{ width: '80%', ...classes.fontname }}
+					>
+						{allLocations.map((el, ind) => (
+							<MenuItem value={el.location_id}>
+								{el.address}, {el.city}, {el.country}
+							</MenuItem>
+						))}
+					</Select>
 					<br />
 					<button style={classes.button} className="defaultButtonHover1">
 						AssignEmployeeForm

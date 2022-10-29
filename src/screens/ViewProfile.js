@@ -21,7 +21,7 @@ const classes = {
 		fontFamily: 'Inter',
 	},
 };
-const Register = () => {
+const ViewProfile = () => {
 	const [firstName, setFirstName] = useState('');
 	const [middleName, setMiddleName] = useState('');
 	const [lastName, setLastName] = useState('');
@@ -46,8 +46,15 @@ const Register = () => {
 	const [isUserFound, setIsUserFound] = useState(false);
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
 	const [role, setRole] = useState('0');
+
+	const [isEditable, setIsEditable] = useState(false);
+	useEffect(() => {}, [token]);
+
 	useEffect(() => {
+		var user = getDataFromToken(token);
 		var url = new URL(window.location.href);
+		setIsEditable(url.searchParams.get('id') === user.email_id);
+
 		var config = {
 			method: 'get',
 			url: `${host.host}/profile-by-id?email_id=${url.searchParams.get('id')}`,
@@ -82,6 +89,10 @@ const Register = () => {
 				console.log(err);
 			});
 	}, [token]);
+	useEffect(() => {
+		console.log(passingYear);
+	}, [passingYear]);
+
 	useEffect(() => {
 		if (university === 0) {
 			setErr('Please Enter your university details');
@@ -127,28 +138,7 @@ const Register = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
-
-	useEffect(() => {
-		var user = getDataFromToken(token);
-		console.log(user);
-		if (user.role === null) {
-			setRole('0');
-		} else {
-			setRole(user.role);
-		}
-		if (isUserFound) {
-			if (role === '1') {
-				window.location.href = '/admin';
-			} else if (role === '2') {
-				window.location.href = '/employee';
-			} else if (role === '3') {
-				window.location.href = '/intern';
-			} else {
-				window.location.href = '/';
-			}
-		}
-	}, [isUserFound, token, role]);
+	}, [token]);
 
 	const handleSubmit = (e) => {
 		setIsSubmitPressed(true);
@@ -200,37 +190,29 @@ const Register = () => {
 
 		axios(config)
 			.then((res) => {
-				if (res.status === 200) {
-					config = {
-						method: 'post',
-						data: resume,
-						url: `${host.host}/upload-resume`,
-						headers: {
-							'Content-Type': 'multipart/form-data',
-							Credentials: `Bearer ${token}`,
-						},
-					};
-					// ! will upload resume
-					axios(config)
-						.then((response) => {
-							if (res.status === 200) {
-								console.log(JSON.stringify(response.data));
-								if (role === '1') {
-									window.location.href = '/admin';
-								} else if (role === '2') {
-									window.location.href = '/employee';
-								} else if (role === '3') {
-									window.location.href = '/intern';
-								} else {
-									window.location.href = '/';
-								}
-							}
-						})
-						.catch((err) => {
-							console.log(err);
-							console.warn('File not uploaded');
-						});
-				}
+				console.log(res.data);
+				// if (res.status === 200) {
+				// 	config = {
+				// 		method: 'post',
+				// 		data: resume,
+				// 		url: `${host.host}/upload-resume`,
+				// 		headers: {
+				// 			'Content-Type': 'multipart/form-data',
+				// 			Credentials: `Bearer ${token}`,
+				// 		},
+				// 	};
+				// 	// ! will upload resume
+				// 	axios(config)
+				// 		.then((response) => {
+				// 			if (res.status === 200) {
+				// 				console.log(JSON.stringify(response.data));
+				// 			}
+				// 		})
+				// 		.catch((err) => {
+				// 			console.log(err);
+				// 			console.warn('File not uploaded');
+				// 		});
+				// }
 			})
 			.catch((err) => {
 				console.log(err);
@@ -266,7 +248,7 @@ const Register = () => {
 						...classes.fontname,
 					}}
 				>
-					Complete profile details
+					Profile details
 				</h1>
 				<form
 					style={{
@@ -289,6 +271,7 @@ const Register = () => {
 							value={firstName}
 							onChange={(evt) => setFirstName(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -300,6 +283,7 @@ const Register = () => {
 							value={middleName}
 							onChange={(evt) => setMiddleName(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -312,6 +296,7 @@ const Register = () => {
 							value={lastName}
 							onChange={(evt) => setLastName(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -324,6 +309,7 @@ const Register = () => {
 							value={phone}
 							onChange={(evt) => setPhone(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -336,6 +322,7 @@ const Register = () => {
 							value={addressFirstLine}
 							onChange={(evt) => setAddressFirstLine(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -347,6 +334,7 @@ const Register = () => {
 							value={addressSecondLine}
 							onChange={(evt) => setAddressSecondLine(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -359,6 +347,7 @@ const Register = () => {
 							value={dob}
 							onChange={(evt) => setDob(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -371,6 +360,7 @@ const Register = () => {
 							value={zipcode}
 							onChange={(evt) => setZipcode(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -383,6 +373,7 @@ const Register = () => {
 							value={country}
 							onChange={(evt) => setCountry(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -395,6 +386,7 @@ const Register = () => {
 							value={cpi}
 							onChange={(evt) => setCpi(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
 						<TextField
@@ -407,9 +399,10 @@ const Register = () => {
 							value={passingYear}
 							onChange={(evt) => setPassingYear(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						/>
 						<br />
-						<InputLabel id="input-path-to-resume">Resume</InputLabel>
+						{/* <InputLabel id="input-path-to-resume">Resume</InputLabel>
 						<TextField
 							labelId="input-path-to-resume"
 							id="outlined-basic"
@@ -423,9 +416,10 @@ const Register = () => {
 								var [file] = evt.target.files;
 								setPathToResume(file);
 							}}
+							disabled={!isEditable}
 							style={{ width: '80%', ...classes.fontname }}
 						/>
-						<br />
+						<br /> */}
 
 						<InputLabel id="demo-simple-select-label">Gender</InputLabel>
 						<Select
@@ -436,6 +430,7 @@ const Register = () => {
 							required
 							onChange={(evt) => setGender(evt.target.value)}
 							style={{ width: '80%', ...classes.fontname }}
+							disabled={!isEditable}
 						>
 							<MenuItem value={'male'}>Male</MenuItem>
 							<MenuItem value={'female'}>Female</MenuItem>
@@ -450,6 +445,7 @@ const Register = () => {
 							required
 							// label="Gender"
 							onChange={(evt) => setAppliedFor(evt.target.value)}
+							disabled={!isEditable}
 							style={{ width: '80%', ...classes.fontname }}
 						>
 							<MenuItem value={'intern'}>Intern</MenuItem>
@@ -463,8 +459,9 @@ const Register = () => {
 						labelId="input-university"
 						id="demo-sisdfmple-select"
 						value={university}
-						// label="Gender"
+						// label="Gender"disabled={!isEditable}
 						onChange={(evt) => setUniversity(evt.target.value)}
+						disabled={!isEditable}
 						style={{ width: '80%', ...classes.fontname }}
 					>
 						{allUniversities.map((el, ind) => (
@@ -484,6 +481,7 @@ const Register = () => {
 								value={universityName}
 								onChange={(evt) => setUniversityName(evt.target.value)}
 								style={{ width: '80%', ...classes.fontname }}
+								disabled={!isEditable}
 							/>
 							<br />
 							<TextField
@@ -496,6 +494,7 @@ const Register = () => {
 								value={universityCity}
 								onChange={(evt) => setUniversityCity(evt.target.value)}
 								style={{ width: '80%', ...classes.fontname }}
+								disabled={!isEditable}
 							/>
 							<br />
 							<TextField
@@ -508,14 +507,17 @@ const Register = () => {
 								value={universityCountry}
 								onChange={(evt) => setUniversityCountry(evt.target.value)}
 								style={{ width: '80%', ...classes.fontname }}
+								disabled={!isEditable}
 							/>
 						</>
 					)}
 					<br />
 
-					<button style={classes.button} className="defaultButtonHover1">
-						Create profile
-					</button>
+					{isEditable && (
+						<button style={classes.button} className="defaultButtonHover1">
+							Update profile
+						</button>
+					)}
 					<br />
 				</form>
 				{err && isSubmitPressed && <div style={{ color: 'red' }}> {err}</div>}
@@ -524,4 +526,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default ViewProfile;

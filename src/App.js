@@ -17,6 +17,7 @@ import AddProject from './screens/Employee/AddProject';
 import AssignProject from './screens/Employee/AssignProject';
 import GetProjects from './screens/Employee/GetProjects';
 import ViewProjectInterns from './screens/Employee/ViewProjectInterns';
+import ViewProfile from './screens/ViewProfile';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
 	{
 		path: '/view-project-interns',
 		element: <ViewProjectInterns />,
+	},
+	{
+		path: '/view-profile',
+		element: <ViewProfile />,
 	},
 ]);
 function App() {
