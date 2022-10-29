@@ -68,7 +68,10 @@ const Check = () => {
 				justifyContent: 'center',
 			}}
 		>
-			<div
+			<h1>
+				Chuitya hai tu <span style={{ color: 'red' }}>CHUTIYA</span>
+			</h1>
+			{/* <div
 				style={{
 					display: 'flex',
 					justifyContent: 'space-evenly',
@@ -114,7 +117,7 @@ const Check = () => {
 					</button>
 					<br />
 				</form>
-			</div>
+			</div> */}
 		</div>
 	);
 };

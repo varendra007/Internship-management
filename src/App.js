@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import AdminScreen from './screens/admin';
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -6,6 +5,8 @@ import SignUp from './screens/SignUp';
 import SignIn from './screens/SignIn';
 import Register from './screens/Register';
 import Check from './screens/Check';
+import InternScreen from './screens/Intern';
+import EmployeeScreen from './screens/Employee';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -22,6 +23,18 @@ const router = createBrowserRouter([
 	{
 		path: '/profile',
 		element: <Register />,
+	},
+	{
+		path: '/admin',
+		element: <AdminScreen />,
+	},
+	{
+		path: '/intern',
+		element: <InternScreen />,
+	},
+	{
+		path: '/employee',
+		element: <EmployeeScreen />,
 	},
 ]);
 function App() {

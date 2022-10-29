@@ -1,6 +1,7 @@
 import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import host from '../data/host';
+import getDataFromToken from '../utils/getDataFromJWT';
 const classes = {
 	button: {
 		border: 'none',
@@ -43,6 +44,7 @@ const Register = () => {
 	const [isSubmitPressed, setIsSubmitPressed] = useState(false);
 	const [isUserFound, setIsUserFound] = useState(false);
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [role, setRole] = useState(0);
 
 	useEffect(() => {
 		if (university === 0) {
@@ -92,10 +94,25 @@ const Register = () => {
 	}, []);
 
 	useEffect(() => {
-		if (isUserFound) {
-			window.location.href = '/';
+		var user = getDataFromToken(token);
+		console.log(user);
+		if (user.role === null) {
+			setRole(0);
+		} else {
+			setRole(user.role);
 		}
-	}, [isUserFound]);
+		if (isUserFound) {
+			if (role === 1) {
+				window.location.href = '/admin';
+			} else if (role === 2) {
+				window.location.href = '/employee';
+			} else if (role === 3) {
+				window.location.href = '/intern';
+			} else {
+				window.location.href = '/';
+			}
+		}
+	}, [isUserFound, token]);
 
 	const handleSubmit = (e) => {
 		setIsSubmitPressed(true);
