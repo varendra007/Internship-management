@@ -11,6 +11,15 @@ const InternCompleted = () => {
 	const [description, setDescription] = useState();
 	const [err, setIsErr] = useState('');
 	const [isSubmit, setIsSubmit] = useState(false);
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [error, setIsError] = useState('');
+	useEffect(() => {
+		if (isSuccess) {
+			setTimeout(() => {
+				window.history.go(-1);
+			}, 2000);
+		}
+	}, [isSuccess]);
 	const getMyInterns = () => {
 		var axios = require('axios');
 		var config = {
@@ -65,9 +74,13 @@ const InternCompleted = () => {
 		axios(config)
 			.then((res) => {
 				console.log(res.data);
+				setIsSuccess(true);
+				setIsError('');
 			})
 			.catch((err) => {
 				console.log(err);
+				setIsError(err.response.data.detail);
+				setIsSuccess(false);
 			});
 	};
 	return (
@@ -168,6 +181,12 @@ const InternCompleted = () => {
 					<br />
 				</form>
 				{isSubmit && <div style={{ color: 'red' }}>{err}</div>}
+				{error && <div style={{ color: 'red' }}>{error}</div>}
+				{isSuccess && (
+					<div style={{ color: 'lightseagreen' }}>
+						Intern completed Successfully
+					</div>
+				)}
 			</div>
 		</div>
 	);
