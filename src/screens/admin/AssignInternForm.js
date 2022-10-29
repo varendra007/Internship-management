@@ -28,6 +28,22 @@ const AssignInternForm = () => {
 	const [endDate, setEndDate] = useState('');
 	const [mentor, setMentor] = useState('');
 	const [allMentors, setAllMentors] = useState([]);
+	const [location, setLocation] = useState('1');
+	const [allLocations, setAllLocations] = useState([]);
+	useEffect(() => {
+		var axios = require('axios');
+		var config = {
+			method: 'get',
+			url: `${host.host}/location`,
+		};
+		axios(config)
+			.then((res) => {
+				setAllLocations(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 	// ! fetch alllist of mentors
 	useEffect(() => {
 		var url = new URL(window.location.href);
@@ -56,6 +72,7 @@ const AssignInternForm = () => {
 			stipend: parseInt(stipend),
 			start_date: startDate,
 			expected_end_date: endDate,
+			location_id: location,
 		};
 		var mentor_data = {
 			mentor_id: mentor,
@@ -183,7 +200,7 @@ const AssignInternForm = () => {
 						style={{ width: '80%', ...classes.fontname }}
 					/>
 					<br />
-					<InputLabel id="input-appliedfor">Applied for</InputLabel>
+					<InputLabel id="input-appliedfor">Select Mentor</InputLabel>
 					<Select
 						labelId="input-appliedfor"
 						id="demoinput-simple-select"
@@ -197,6 +214,22 @@ const AssignInternForm = () => {
               <MenuItem value={'others'}>Others</MenuItem> */}
 						{allMentors.map((el, ind) => (
 							<MenuItem value={el.email_id}>{el.email_id}</MenuItem>
+						))}
+					</Select>
+					<br />
+					<InputLabel id="input-university">Location</InputLabel>
+					<Select
+						labelId="input-university"
+						id="demo-sisdfmple-select"
+						value={location}
+						// label="Gender"
+						onChange={(evt) => setLocation(evt.target.value)}
+						style={{ width: '80%', ...classes.fontname }}
+					>
+						{allLocations.map((el, ind) => (
+							<MenuItem value={el.location_id}>
+								{el.address}, {el.city}, {el.country}
+							</MenuItem>
 						))}
 					</Select>
 					<br />

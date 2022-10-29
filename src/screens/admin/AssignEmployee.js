@@ -123,7 +123,7 @@ const AssignEmployeeForm = () => {
 					<br />
 					<TextField
 						id="outlined-basic"
-						label="Stipend"
+						label="Salary"
 						name="stipend"
 						variant="outlined"
 						type="number"
@@ -133,7 +133,7 @@ const AssignEmployeeForm = () => {
 						style={{ width: '80%', ...classes.fontname }}
 					/>
 					<br />
-					<InputLabel id="input-university">University</InputLabel>
+					<InputLabel id="input-university">Location</InputLabel>
 					<Select
 						labelId="input-university"
 						id="demo-sisdfmple-select"
