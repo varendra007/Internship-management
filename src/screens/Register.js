@@ -31,7 +31,8 @@ const Register = () => {
 	const [addressSecondLine, setAddressSecondLine] = useState('');
 	const [zipcode, setZipcode] = useState(null);
 	const [country, setCountry] = useState('');
-	const [gender, setGender] = useState('Male');
+	const [gender, setGender] = useState('male');
+	const [appliedFor, setAppliedFor] = useState('intern');
 	const [university, setUniversity] = useState(0);
 	const [pathToResume, setPathToResume] = useState(null);
 	const [universityCity, setUniversityCity] = useState('');
@@ -112,7 +113,7 @@ const Register = () => {
 				window.location.href = '/';
 			}
 		}
-	}, [isUserFound, token]);
+	}, [isUserFound, token, role]);
 
 	const handleSubmit = (e) => {
 		setIsSubmitPressed(true);
@@ -135,6 +136,7 @@ const Register = () => {
 			cpi: parseFloat(cpi),
 			passing_year: parseInt(passingYear),
 			phone: phone,
+			applied_for: appliedFor,
 		};
 		for (const key in data) {
 			// console.log(data[key]);
@@ -159,14 +161,13 @@ const Register = () => {
 			url: `${host.host}/profile`,
 			headers: {
 				// 'Content-Type': 'multipart/form-data',
-				Credentials: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9pZCI6ImFkbWluQGNvbXBhbnkuY29tIiwiZXhwIjoxNjY3MDMwNDQ0LjB9.2dWqTH21sraayC8BPrMnIBWnduih9EHhcHn3Z65ZpwY`,
+				Credentials: `Bearer ${token}`,
 			},
 		};
 		console.log(config);
 
 		axios(config)
 			.then((res) => {
-				// ! will upload resume
 				if (res.status === 200) {
 					config = {
 						method: 'post',
@@ -174,13 +175,23 @@ const Register = () => {
 						url: `${host.host}/upload-resume`,
 						headers: {
 							'Content-Type': 'multipart/form-data',
-							Credentials: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbF9pZCI6ImFkbWluQGNvbXBhbnkuY29tIiwiZXhwIjoxNjY3MDMwNDQ0LjB9.2dWqTH21sraayC8BPrMnIBWnduih9EHhcHn3Z65ZpwY`,
+							Credentials: `Bearer ${token}`,
 						},
 					};
+					// ! will upload resume
 					axios(config)
 						.then((response) => {
 							if (res.status === 200) {
 								console.log(JSON.stringify(response.data));
+								if (role === '1') {
+									window.location.href = '/admin';
+								} else if (role === '2') {
+									window.location.href = '/employee';
+								} else if (role === '3') {
+									window.location.href = '/intern';
+								} else {
+									window.location.href = '/';
+								}
 							}
 						})
 						.catch((err) => {
@@ -398,11 +409,25 @@ const Register = () => {
 							<MenuItem value={'others'}>Others</MenuItem>
 						</Select>
 						<br />
+						<InputLabel id="input-appliedfor">Applied for</InputLabel>
+						<Select
+							labelId="input-appliedfor"
+							id="demoinput-simple-select"
+							value={appliedFor}
+							// label="Gender"
+							onChange={(evt) => setAppliedFor(evt.target.value)}
+							style={{ width: '80%', ...classes.fontname }}
+						>
+							<MenuItem value={'intern'}>Intern</MenuItem>
+							<MenuItem value={'employee'}>Employee</MenuItem>
+							<MenuItem value={'others'}>Others</MenuItem>
+						</Select>
+						<br />
 					</>
 					<InputLabel id="input-university">University</InputLabel>
 					<Select
 						labelId="input-university"
-						id="demo-simple-select"
+						id="demo-sisdfmple-select"
 						value={university}
 						// label="Gender"
 						onChange={(evt) => setUniversity(evt.target.value)}

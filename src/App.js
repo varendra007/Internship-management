@@ -7,6 +7,7 @@ import Register from './screens/Register';
 import Check from './screens/Check';
 import InternScreen from './screens/Intern';
 import EmployeeScreen from './screens/Employee';
+import AddIntern from './screens/admin/AddIntern';
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
 	{
 		path: '/employee',
 		element: <EmployeeScreen />,
+	},
+	{
+		path: '/add-intern',
+		element: <AddIntern />,
 	},
 ]);
 function App() {
