@@ -37,7 +37,7 @@ var actions = [
 	},
 	{
 		title: 'Completed Inerns',
-		description: 'All Mentors',
+		description: 'List of Completed interns',
 		href: '/completed-interns',
 	},
 	{
@@ -128,22 +128,26 @@ const AdminScreen = () => {
 							flexDirection: 'column',
 						}}
 						onClick={() => {
-							var axios = require('axios');
-							var config = {
-								method: 'delete',
-								url: `${host.host}/profile`,
-								headers: {
-									Credentials: `Bearer ${window.localStorage.getItem(
-										'dbisToken'
-									)}`,
-								},
-							};
-							axios(config)
-								.then((res) => {
-									console.log(res.data);
-									window.location = '/signup';
-								})
-								.catch((err) => console.log(err));
+							if (
+								window.confirm('Are you sure to delete your profile') === true
+							) {
+								var axios = require('axios');
+								var config = {
+									method: 'delete',
+									url: `${host.host}/profile`,
+									headers: {
+										Credentials: `Bearer ${window.localStorage.getItem(
+											'dbisToken'
+										)}`,
+									},
+								};
+								axios(config)
+									.then((res) => {
+										console.log(res.data);
+										window.location = '/signup';
+									})
+									.catch((err) => console.log(err));
+							}
 						}}
 					>
 						<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
