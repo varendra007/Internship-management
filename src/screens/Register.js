@@ -44,7 +44,7 @@ const Register = () => {
 	const [isSubmitPressed, setIsSubmitPressed] = useState(false);
 	const [isUserFound, setIsUserFound] = useState(false);
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
-	const [role, setRole] = useState(0);
+	const [role, setRole] = useState('0');
 
 	useEffect(() => {
 		if (university === 0) {
@@ -67,7 +67,7 @@ const Register = () => {
 		var axios = require('axios');
 		axios(config)
 			.then((res) => {
-				console.log(JSON.stringify(res.data));
+				// console.log(JSON.stringify(res.data));
 				if (res.status === 200) {
 					setIsUserFound(true);
 				} else {
@@ -85,7 +85,7 @@ const Register = () => {
 		};
 		axios(config)
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				setAllUniversities(res.data);
 			})
 			.catch((err) => {
@@ -97,16 +97,16 @@ const Register = () => {
 		var user = getDataFromToken(token);
 		console.log(user);
 		if (user.role === null) {
-			setRole(0);
+			setRole('0');
 		} else {
 			setRole(user.role);
 		}
 		if (isUserFound) {
-			if (role === 1) {
+			if (role === '1') {
 				window.location.href = '/admin';
-			} else if (role === 2) {
+			} else if (role === '2') {
 				window.location.href = '/employee';
-			} else if (role === 3) {
+			} else if (role === '3') {
 				window.location.href = '/intern';
 			} else {
 				window.location.href = '/';
