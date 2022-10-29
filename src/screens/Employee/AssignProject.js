@@ -32,21 +32,29 @@ const AssignProject = () => {
 			project_id,
 			intern_id,
 			assigned_date,
+			end_date,
 		};
+		for (const key in data) {
+			if (data[key] === '') {
+				delete data[key];
+			}
+		}
 		var axios = require('axios');
 		var config = {
 			method: 'post',
 			url: `${host.host}/assign-project`,
 			data: data,
+			headers: {
+				Credentials: `Bearer ${localStorage.getItem('dbisToken')}`,
+			},
 		};
+		console.log(config);
 		axios(config)
 			.then(function (response) {
-				console.log(JSON.stringify(response.data.access_token));
 				if (response.status === 200) {
 					console.log('success');
-					window.localStorage.setItem('dbisToken', response.data.access_token);
-					window.location.href = '/profile';
 				}
+				setErr('');
 				console.log(JSON.stringify(response.data));
 			})
 			.catch((err) => {
@@ -109,7 +117,7 @@ const AssignProject = () => {
 					<br />
 					<TextField
 						id="outlined-basic"
-						label="Topic"
+						label="Intern Id"
 						name="email"
 						variant="outlined"
 						type="text"

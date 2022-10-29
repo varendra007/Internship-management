@@ -139,11 +139,8 @@ const Register = () => {
 			applied_for: appliedFor,
 		};
 		for (const key in data) {
-			// console.log(data[key]);
 			if (data[key] === '') {
 				delete data[key];
-			} else {
-				console.log(key);
 			}
 		}
 		var resume = {
