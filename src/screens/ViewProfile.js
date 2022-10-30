@@ -1,5 +1,6 @@
 import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import buttons from '../component/buttons';
 import host from '../data/host';
 import getDataFromToken from '../utils/getDataFromJWT';
 const classes = {
@@ -88,6 +89,7 @@ const ViewProfile = () => {
 				setPassingYear(`${data.passing_year}`);
 				setPhone(data.phone);
 				setAppliedFor(data.applied_for);
+				setPathToResume(data.path_to_resume);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -240,6 +242,15 @@ const ViewProfile = () => {
 				>
 					Profile details of {firstName}
 				</h1>
+				<a
+					style={{ ...buttons.button, color: 'royalblue' }}
+					href={`${host.host}/resume?path_to_resume=${pathToResume}`}
+					target="_blank"
+					rel="noreferrer"
+				>
+					View resume
+				</a>
+				<br />
 				<form
 					style={{
 						display: 'flex',
