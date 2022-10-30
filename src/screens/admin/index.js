@@ -71,8 +71,10 @@ const AdminScreen = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
+				flexDirection: 'column',
 			}}
 		>
+			<h2>Welcome to Admin screen</h2>
 			<Box
 				sx={{ flexGrow: 1 }}
 				direction="row"

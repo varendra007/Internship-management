@@ -35,8 +35,10 @@ const InternScreen = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
+				flexDirection: 'column',
 			}}
 		>
+			<h2>Welcome to Intern screen</h2>
 			<Box
 				sx={{ flexGrow: 1 }}
 				direction="row"
