@@ -30,6 +30,7 @@ const AddProject = () => {
 
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
 	const [userId, setUserId] = useState('');
+	const [isPerm, setIsPerm] = useState(true);
 	useEffect(() => {
 		if (!token) {
 			window.location = '/signin';
@@ -38,12 +39,22 @@ const AddProject = () => {
 		if (user.isExp) {
 			window.location = '/signin';
 		}
-		if (user.role !== '1' || user.role !== '2') {
-			window.location.href = '/unauthorized';
+		console.log(user.role);
+		// if (user.role !== '1' || user.role !== '2') {
+		// 	window.location.href = '/unauthorized';
+		// }
+		if (user.role === '1' || user.role === '2') {
+			setIsPerm(true);
+		} else {
+			setIsPerm(false);
 		}
 		setUserId(user.email_id);
 	}, [token]);
-
+	useEffect(() => {
+		if (!isPerm) {
+			window.location.href = '/unauthorized';
+		}
+	}, [isPerm]);
 	useEffect(() => {
 		if (isSuccess) {
 			setIsSuccess(true);

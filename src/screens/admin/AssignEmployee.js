@@ -1,6 +1,7 @@
 import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
+import getDataFromToken from '../../utils/getDataFromJWT';
 const classes = {
 	button: {
 		border: 'none',
@@ -21,6 +22,21 @@ const classes = {
 	},
 };
 const AssignEmployeeForm = () => {
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
+		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
+		if (user.role !== '1') {
+			window.location.href = '/unauthorized';
+		}
+		setUserId(user.email_id);
+	}, [token]);
 	const [email, setEmail] = useState(
 		new URL(window.location.href).searchParams.get('id')
 	);

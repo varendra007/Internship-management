@@ -2,9 +2,25 @@ import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import buttons from '../../component/buttons';
 import host from '../../data/host';
+import getDataFromToken from '../../utils/getDataFromJWT';
 
 // var users = [];
 const AddEmployee = () => {
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
+		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
+		if (user.role !== '1') {
+			window.location.href = '/unauthorized';
+		}
+		setUserId(user.email_id);
+	}, [token]);
 	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		var axios = require('axios');
