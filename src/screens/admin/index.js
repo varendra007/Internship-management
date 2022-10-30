@@ -15,7 +15,7 @@ const AdminScreen = () => {
 		if (user.isExp) {
 			window.location = '/signin';
 		}
-		if (user.role !== '3') {
+		if (user.role !== '1') {
 			window.location.href = '/unauthorized';
 		}
 		setUserId(user.email_id);
