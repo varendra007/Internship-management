@@ -1,53 +1,68 @@
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
 import getDataFromToken from '../../utils/getDataFromJWT';
-var user = getDataFromToken(window.localStorage.getItem('dbisToken'));
-var actions = [
-	{
-		title: 'Add Intern',
-		description: 'Add Intern',
-		href: '/add-intern',
-	},
-	{
-		title: 'Add Employee',
-		description: 'Add Employee',
-		href: '/add-employee',
-	},
-	{
-		title: 'View Interns',
-		description: 'View Interns',
-		href: '/get-interns',
-	},
-	{
-		title: 'View Employee',
-		description: 'View Employee',
-		href: '/get-employee',
-	},
-	{
-		title: 'Add Project',
-		description: 'Add Project',
-		href: '/add-project',
-	},
-	{
-		title: 'All Mentors',
-		description: 'All Mentors',
-		href: '/all-mentor',
-	},
-	{
-		title: 'Completed Inerns',
-		description: 'List of Completed interns',
-		href: '/completed-interns',
-	},
-	{
-		title: 'View Profile',
-		description: 'View Your Profile',
-		href: `/view-profile?id=${user.email_id}`,
-	},
-];
 
 const AdminScreen = () => {
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
+		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
+		if (user.role !== '3') {
+			window.location.href = '/unauthorized';
+		}
+		setUserId(user.email_id);
+	}, [token]);
+	var actions = [
+		{
+			title: 'Add Intern',
+			description: 'Add Intern',
+			href: '/add-intern',
+		},
+		{
+			title: 'Add Employee',
+			description: 'Add Employee',
+			href: '/add-employee',
+		},
+		{
+			title: 'View Interns',
+			description: 'View Interns',
+			href: '/get-interns',
+		},
+		{
+			title: 'View Employee',
+			description: 'View Employee',
+			href: '/get-employee',
+		},
+		{
+			title: 'Add Project',
+			description: 'Add Project',
+			href: '/add-project',
+		},
+		{
+			title: 'All Mentors',
+			description: 'All Mentors',
+			href: '/all-mentor',
+		},
+		{
+			title: 'Completed Inerns',
+			description: 'List of Completed interns',
+			href: '/completed-interns',
+		},
+		{
+			title: 'View Profile',
+			description: 'View Your Profile',
+			href: `/view-profile?id=${userId}`,
+		},
+	];
+
 	return (
 		<div
 			style={{

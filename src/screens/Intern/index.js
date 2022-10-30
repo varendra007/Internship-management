@@ -1,19 +1,32 @@
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
 import getDataFromToken from '../../utils/getDataFromJWT';
 
-var user = getDataFromToken(window.localStorage.getItem('dbisToken'));
-var actions = [
-	{
-		title: 'View Profile',
-		description: 'View Your Profile',
-		href: `/view-profile?id=${user.email_id}`,
-	},
-];
-
 const InternScreen = () => {
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
+		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
+		if (user.role !== '3') {
+			window.location.href = '/unauthorized';
+		}
+		setUserId(user.email_id);
+	}, [token]);
+	var actions = [
+		{
+			title: 'View Profile',
+			description: 'View Your Profile',
+			href: `/view-profile?id=${userId}`,
+		},
+	];
 	return (
 		<div
 			style={{

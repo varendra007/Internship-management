@@ -49,7 +49,13 @@ const ViewProfile = () => {
 	useEffect(() => {}, [token]);
 
 	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
 		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
 		var url = new URL(window.location.href);
 		setIsEditable(url.searchParams.get('id') === user.email_id);
 

@@ -1,9 +1,9 @@
 import jwt from 'jwt-decode';
 
 const getDataFromToken = (token) => {
-	if (!token) {
-		window.location.href = '/signin';
-	}
+	// if (!token) {
+	// 	window.location.href = '/signin';
+	// }
 	const user = jwt(token);
 	console.log(user);
 	// console.log();

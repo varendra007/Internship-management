@@ -127,10 +127,16 @@ const Register = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, []);
+	}, [token]);
 
 	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
 		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
 		console.log(user);
 		if (user.role === null) {
 			setRole('0');

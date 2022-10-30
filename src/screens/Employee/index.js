@@ -1,38 +1,52 @@
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
 import getDataFromToken from '../../utils/getDataFromJWT';
-var user = getDataFromToken(window.localStorage.getItem('dbisToken'));
-var actions = [
-	{
-		title: 'Add Project',
-		description: 'Add Project',
-		href: '/add-project',
-	},
-	{
-		title: 'Assign Project',
-		description: 'Assign Project',
-		href: '/assign-project',
-	},
-	{
-		title: 'Get Project',
-		description: 'Get Project',
-		href: '/get-projects',
-	},
-	{
-		title: 'Mark Intern Completed',
-		description: 'Mark Intern Completed',
-		href: '/intern-completed',
-	},
-	{
-		title: 'View Profile',
-		description: 'View Your Profile',
-		href: `/view-profile?id=${user.email_id}`,
-	},
-];
 
 const EmployeeScreen = () => {
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
+		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
+		if (user.role !== '2') {
+			window.location.href = '/unauthorized';
+		}
+		setUserId(user.email_id);
+	}, [token]);
+	var actions = [
+		{
+			title: 'Add Project',
+			description: 'Add Project',
+			href: '/add-project',
+		},
+		{
+			title: 'Assign Project',
+			description: 'Assign Project',
+			href: '/assign-project',
+		},
+		{
+			title: 'Get Project',
+			description: 'Get Project',
+			href: '/get-projects',
+		},
+		{
+			title: 'Mark Intern Completed',
+			description: 'Mark Intern Completed',
+			href: '/intern-completed',
+		},
+		{
+			title: 'View Profile',
+			description: 'View Your Profile',
+			href: `/view-profile?id=${userId}`,
+		},
+	];
 	return (
 		<div
 			style={{
