@@ -20,7 +20,7 @@ const classes = {
 		fontFamily: 'Inter',
 	},
 };
-const Unauthorized = () => {
+const Wait = () => {
 	const [files, setFile] = useState(null);
 	const handleFile = (evt) => {
 		var [file] = evt.target.files;
@@ -69,11 +69,8 @@ const Unauthorized = () => {
 				flexDirection: 'column',
 			}}
 		>
-			<h1 style={{ color: 'red' }}>Route is not permitted.</h1>
-			<h3>
-				You are not authenticated to perform this action. Please login with
-				appropriate Credentials to perform this action
-			</h3>
+			<h1>No roles assigned yet.</h1>
+			<h3>You are not assigned with any roles. Please wait to get assigned</h3>
 			{/* <div
 				style={{
 					display: 'flex',
@@ -92,7 +89,7 @@ const Unauthorized = () => {
 						...classes.fontname,
 					}}
 				>
-					Unauthorized
+					Check
 				</h1>
 				<form
 					style={{
@@ -116,7 +113,7 @@ const Unauthorized = () => {
 					/>
 
 					<button style={classes.button} className="defaultButtonHover1">
-						Unauthorized
+						Check
 					</button>
 					<br />
 				</form>
@@ -125,4 +122,4 @@ const Unauthorized = () => {
 	);
 };
 
-export default Unauthorized;
+export default Wait;

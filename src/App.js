@@ -21,7 +21,12 @@ import ViewProfile from './screens/ViewProfile';
 import AllMentorsWithStudents from './screens/admin/AllMentorsWithInterns';
 import CompletedInterns from './screens/admin/CompletedInterns';
 import InternCompleted from './screens/Employee/InternCompleted';
+import Wait from './screens/Wait';
 const router = createBrowserRouter([
+	{
+		path: '/wait',
+		element: <Wait />,
+	},
 	{
 		path: '/unauthorized',
 		element: <Unauthorized />,

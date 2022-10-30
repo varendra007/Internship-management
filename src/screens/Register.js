@@ -151,7 +151,7 @@ const Register = () => {
 			} else if (role === '3') {
 				window.location.href = '/intern';
 			} else {
-				window.location.href = '/';
+				window.location.href = '/wait';
 			}
 		}
 	}, [isUserFound, token, role]);
@@ -228,7 +228,7 @@ const Register = () => {
 								} else if (role === '3') {
 									window.location.href = '/intern';
 								} else {
-									window.location.href = '/';
+									window.location.href = '/wait';
 								}
 							}
 						})
