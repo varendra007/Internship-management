@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import host from '../../data/host';
+import getDataFromToken from '../../utils/getDataFromJWT';
 const classes = {
 	button: {
 		border: 'none',
@@ -26,6 +27,23 @@ const AddProject = () => {
 	const [description, setDescription] = useState('');
 	const [err, setErr] = useState('');
 	const [isSuccess, setIsSuccess] = useState(false);
+
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (!token) {
+			window.location = '/signin';
+		}
+		var user = getDataFromToken(token);
+		if (user.isExp) {
+			window.location = '/signin';
+		}
+		if (user.role !== '1' || user.role !== '2') {
+			window.location.href = '/unauthorized';
+		}
+		setUserId(user.email_id);
+	}, [token]);
+
 	useEffect(() => {
 		if (isSuccess) {
 			setIsSuccess(true);
