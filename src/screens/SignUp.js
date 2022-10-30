@@ -1,12 +1,13 @@
 import { TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import host from '../data/host';
+import getDataFromToken from '../utils/getDataFromJWT';
 const classes = {
 	button: {
 		border: 'none',
 		borderRadius: '100px',
-		width: '150px',
+		width: '200px',
 		height: '55px',
 		backgroundColor: '#fa2d64',
 		color: '#ffffff',
@@ -26,6 +27,28 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [err, setErr] = useState('');
+
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (token) {
+			var user = getDataFromToken(token);
+			if (user.isExp) {
+				window.location = '/signin';
+			}
+			if (user.role === '1') {
+				window.location.href = '/admin';
+			} else if (user.role === '2') {
+				window.location.href = '/employee';
+			} else if (user.role === '3') {
+				window.location.href = '/intern';
+			} else {
+				window.location.href = '/wait';
+			}
+			setUserId(user.email_id);
+		}
+	}, [token]);
+
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
 		if (confirmPassword !== password) {
@@ -134,6 +157,9 @@ const SignUp = () => {
 					<button style={classes.button} className="defaultButtonHover1">
 						Create Account
 					</button>
+					<p>
+						Already have account? <a href="/signin">Login here.</a>
+					</p>
 					<br />
 					{err && <div style={{ color: 'red' }}>{err}</div>}
 				</form>

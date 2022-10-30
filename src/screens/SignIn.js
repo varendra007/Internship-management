@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import host from '../data/host';
+import getDataFromToken from '../utils/getDataFromJWT';
 const classes = {
 	button: {
 		border: 'none',
@@ -23,6 +24,27 @@ const classes = {
 const SignIn = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+
+	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
+	const [userId, setUserId] = useState('');
+	useEffect(() => {
+		if (token) {
+			var user = getDataFromToken(token);
+			if (user.isExp) {
+				window.location = '/signin';
+			}
+			if (user.role === '1') {
+				window.location.href = '/admin';
+			} else if (user.role === '2') {
+				window.location.href = '/employee';
+			} else if (user.role === '3') {
+				window.location.href = '/intern';
+			} else {
+				window.location.href = '/wait';
+			}
+			setUserId(user.email_id);
+		}
+	}, [token]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -119,6 +141,9 @@ const SignIn = () => {
 					<button style={classes.button} className="defaultButtonHover1">
 						SignIn
 					</button>
+					<p>
+						Don't have account? <a href="/signup">Create here.</a>
+					</p>
 					<br />
 				</form>
 			</div>
