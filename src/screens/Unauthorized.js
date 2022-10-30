@@ -66,11 +66,14 @@ const Check = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
+				flexDirection: 'column',
 			}}
 		>
-			<h1>
-				{/* Chutiye Single hai tu <span style={{ color: 'red' }}>SINGLE</span> */}
-			</h1>
+			<h1 style={{ color: 'red' }}>Route is not permitted.</h1>
+			<h3>
+				You are not authenticated to perform this action. Please login with
+				appropriate Credentials to perform this action
+			</h3>
 			{/* <div
 				style={{
 					display: 'flex',

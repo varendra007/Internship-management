@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import SignUp from './screens/SignUp';
 import SignIn from './screens/SignIn';
 import Register from './screens/Register';
-import Check from './screens/Check';
+import Unauthorized from './screens/Unauthorized';
 import InternScreen from './screens/Intern';
 import EmployeeScreen from './screens/Employee';
 import AddIntern from './screens/admin/AddIntern';
@@ -23,8 +23,12 @@ import CompletedInterns from './screens/admin/CompletedInterns';
 import InternCompleted from './screens/Employee/InternCompleted';
 const router = createBrowserRouter([
 	{
+		path: '/unauthorized',
+		element: <Unauthorized />,
+	},
+	{
 		path: '/',
-		element: <Check />,
+		element: <SignIn />,
 	},
 	{
 		path: '/signin',
