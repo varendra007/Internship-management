@@ -228,7 +228,7 @@ const Register = () => {
 								} else if (role === '3') {
 									window.location.href = '/intern';
 								} else {
-									window.location.href = '/wait';
+									// window.location.href = '/wait';
 								}
 							}
 						})

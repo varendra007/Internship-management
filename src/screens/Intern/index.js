@@ -16,7 +16,7 @@ const InternScreen = () => {
 			window.location = '/signin';
 		}
 		if (user.role !== '3') {
-			window.location.href = '/unauthorized';
+			// window.location.href = '/unauthorized';
 		}
 		setUserId(user.email_id);
 	}, [token]);
@@ -28,39 +28,73 @@ const InternScreen = () => {
 		},
 	];
 	return (
-		<div
-			style={{
-				height: '100vh',
-				width: '100vw',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				flexDirection: 'column',
-			}}
-		>
+		<div style={{ maxHeight: '100vh', overflow: 'hidden' }}>
 			<h2>Welcome to Intern screen</h2>
-			<Box
-				sx={{ flexGrow: 1 }}
-				direction="row"
-				justifyContent="space-evenly"
-				alignItems="center"
+			<div
+				style={{
+					height: '100vh',
+					width: '100vw',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					// flexDirection: 'column',
+				}}
 			>
-				<Grid
-					container
-					// spacing={{ xs: 2, md: 3 }}
-					columns={{ xs: 4, sm: 8, md: 12 }}
+				<Box
+					sx={{ flexGrow: 1 }}
 					direction="row"
 					justifyContent="space-evenly"
 					alignItems="center"
-					// columnSpacing={12}
 				>
-					{actions.map((el, index) => (
+					<Grid
+						container
+						// spacing={{ xs: 2, md: 3 }}
+						columns={{ xs: 4, sm: 8, md: 12 }}
+						direction="row"
+						justifyContent="space-evenly"
+						alignItems="center"
+						// columnSpacing={12}
+					>
+						{actions.map((el, index) => (
+							<Grid
+								item
+								xs={6}
+								sm={4}
+								md={2}
+								key={index}
+								style={{
+									height: '250px',
+									background:
+										'linear-gradient(to right, hsla(14, 93%, 53%, 1) 0%, #fa2d64  100%, #9bd9e8 100%) repeat scroll 0 0',
+									margin: '10px',
+									borderRadius: '12px',
+									cursor: 'pointer',
+									transform: 'revert-layer',
+									color: 'white',
+									display: 'flex',
+									// justifyContent: 'center',
+									alignItems: 'center',
+									flexDirection: 'column',
+								}}
+								onClick={() => {
+									window.location.href = `${el.href}`;
+								}}
+							>
+								<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
+									{el.title}
+								</h2>
+								<div style={{ width: '82%' }}>
+									<p style={{ textAlign: 'center', fontSize: '21px' }}>
+										{el.description}
+									</p>
+								</div>
+							</Grid>
+						))}
 						<Grid
 							item
 							xs={6}
 							sm={4}
 							md={2}
-							key={index}
 							style={{
 								height: '250px',
 								background:
@@ -76,105 +110,73 @@ const InternScreen = () => {
 								flexDirection: 'column',
 							}}
 							onClick={() => {
-								window.location.href = `${el.href}`;
+								if (window.confirm('Are you sure to delete your profile')) {
+									var axios = require('axios');
+									var config = {
+										method: 'delete',
+										url: `${host.host}/profile`,
+										headers: {
+											Credentials: `Bearer ${window.localStorage.getItem(
+												'dbisToken'
+											)}`,
+										},
+									};
+									axios(config)
+										.then((res) => {
+											console.log(res.data);
+											window.location = '/signup';
+										})
+										.catch((err) => console.log(err));
+								}
 							}}
 						>
 							<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
-								{el.title}
+								Delete Profile
 							</h2>
 							<div style={{ width: '82%' }}>
 								<p style={{ textAlign: 'center', fontSize: '21px' }}>
-									{el.description}
+									Delete Profile
 								</p>
 							</div>
 						</Grid>
-					))}
-					<Grid
-						item
-						xs={6}
-						sm={4}
-						md={2}
-						style={{
-							height: '250px',
-							background:
-								'linear-gradient(to right, hsla(14, 93%, 53%, 1) 0%, #fa2d64  100%, #9bd9e8 100%) repeat scroll 0 0',
-							margin: '10px',
-							borderRadius: '12px',
-							cursor: 'pointer',
-							transform: 'revert-layer',
-							color: 'white',
-							display: 'flex',
-							// justifyContent: 'center',
-							alignItems: 'center',
-							flexDirection: 'column',
-						}}
-						onClick={() => {
-							if (window.confirm('Are you sure to delete your profile')) {
-								var axios = require('axios');
-								var config = {
-									method: 'delete',
-									url: `${host.host}/profile`,
-									headers: {
-										Credentials: `Bearer ${window.localStorage.getItem(
-											'dbisToken'
-										)}`,
-									},
-								};
-								axios(config)
-									.then((res) => {
-										console.log(res.data);
-										window.location = '/signup';
-									})
-									.catch((err) => console.log(err));
-							}
-						}}
-					>
-						<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
-							Delete Profile
-						</h2>
-						<div style={{ width: '82%' }}>
-							<p style={{ textAlign: 'center', fontSize: '21px' }}>
-								Delete Profile
-							</p>
-						</div>
+						<Grid
+							item
+							xs={6}
+							sm={4}
+							md={2}
+							style={{
+								height: '250px',
+								background:
+									'linear-gradient(to right, hsla(14, 93%, 53%, 1) 0%, #fa2d64  100%, #9bd9e8 100%) repeat scroll 0 0',
+								margin: '10px',
+								borderRadius: '12px',
+								cursor: 'pointer',
+								transform: 'revert-layer',
+								color: 'white',
+								display: 'flex',
+								// justifyContent: 'center',
+								alignItems: 'center',
+								flexDirection: 'column',
+							}}
+							onClick={() => {
+								if (window.confirm('Are you sure to logout')) {
+									window.localStorage.removeItem('dbisToken');
+									window.location = '/signin';
+								}
+							}}
+						>
+							<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
+								Logout
+							</h2>
+							<div style={{ width: '82%' }}>
+								<p style={{ textAlign: 'center', fontSize: '21px' }}>
+									Logout here
+								</p>
+							</div>
+						</Grid>
 					</Grid>
-					<Grid
-						item
-						xs={6}
-						sm={4}
-						md={2}
-						style={{
-							height: '250px',
-							background:
-								'linear-gradient(to right, hsla(14, 93%, 53%, 1) 0%, #fa2d64  100%, #9bd9e8 100%) repeat scroll 0 0',
-							margin: '10px',
-							borderRadius: '12px',
-							cursor: 'pointer',
-							transform: 'revert-layer',
-							color: 'white',
-							display: 'flex',
-							// justifyContent: 'center',
-							alignItems: 'center',
-							flexDirection: 'column',
-						}}
-						onClick={() => {
-							if (window.confirm('Are you sure to logout')) {
-								window.localStorage.removeItem('dbisToken');
-								window.location = '/signin';
-							}
-						}}
-					>
-						<h2 style={{ color: '#751919', textDecoration: 'underline' }}>
-							Logout
-						</h2>
-						<div style={{ width: '82%' }}>
-							<p style={{ textAlign: 'center', fontSize: '21px' }}>
-								Logout here
-							</p>
-						</div>
-					</Grid>
-				</Grid>
-			</Box>
+				</Box>
+			</div>
 		</div>
 	);
 };
