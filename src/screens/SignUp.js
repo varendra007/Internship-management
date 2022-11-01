@@ -27,6 +27,7 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [err, setErr] = useState('');
+	const [error, setError] = useState('');
 
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
 	const [userId, setUserId] = useState('');
@@ -73,11 +74,14 @@ const SignUp = () => {
 					window.localStorage.setItem('dbisToken', res.data.access_token);
 					window.location.href = '/profile';
 				}
+				setErr('');
 			})
 			.catch((err) => {
-				console.log(err);
+				setErr(`${err.response.data.detail}`);
+				console.log(err.response.data.detail);
 			});
 	};
+
 	return (
 		<div
 			style={{

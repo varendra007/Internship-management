@@ -1,3 +1,4 @@
+import { AvTimer } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import host from '../data/host';
@@ -71,6 +72,18 @@ const Wait = () => {
 		>
 			<h1>No roles assigned yet.</h1>
 			<h3>You are not assigned with any roles. Please wait to get assigned</h3>
+			<p
+				onClick={() => {
+					window.localStorage.removeItem('dbisToken');
+					window.location = '/signin';
+				}}
+				style={{
+					cursor: 'pointer',
+					color: 'royalblue',
+				}}
+			>
+				Logout
+			</p>
 			{/* <div
 				style={{
 					display: 'flex',

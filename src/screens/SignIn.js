@@ -24,7 +24,7 @@ const classes = {
 const SignIn = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-
+	const [err, setErr] = useState('');
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
 	const [userId, setUserId] = useState('');
 	useEffect(() => {
@@ -63,6 +63,7 @@ const SignIn = () => {
 			.then(function (response) {
 				console.log(JSON.stringify(response.data.access_token));
 				if (response.status === 200) {
+					setErr('');
 					console.log('success');
 					window.localStorage.setItem('dbisToken', response.data.access_token);
 					window.location.href = '/profile';
@@ -71,6 +72,7 @@ const SignIn = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				setErr(err.response.data.detail);
 			});
 	};
 
@@ -145,6 +147,7 @@ const SignIn = () => {
 						Don't have account? <a href="/signup">Create here.</a>
 					</p>
 					<br />
+					<div style={{ color: 'red' }}>{err}</div>
 				</form>
 			</div>
 		</div>

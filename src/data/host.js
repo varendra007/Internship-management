@@ -1,5 +1,5 @@
 const host = {
-	host: 'http://10.196.6.70',
+	host: 'http://10.196.7.214',
 };
 
 export default host;
