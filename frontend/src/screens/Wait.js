@@ -1,7 +1,6 @@
 import { TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import host from '../data/host';
-import getDataFromToken from '../utils/getDataFromJWT';
 const classes = {
 	button: {
 		border: 'none',
@@ -21,58 +20,41 @@ const classes = {
 		fontFamily: 'Inter',
 	},
 };
-const SignIn = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [err, setErr] = useState('');
-	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
-	const [userId, setUserId] = useState('');
-	useEffect(() => {
-		if (token) {
-			var user = getDataFromToken(token);
-			if (user.isExp) {
-				window.location = '/signin';
-			}
-			if (user.role === '1') {
-				window.location.href = '/admin';
-			} else if (user.role === '2') {
-				window.location.href = '/employee';
-			} else if (user.role === '3') {
-				window.location.href = '/intern';
-			} else {
-				window.location.href = '/wait';
-			}
-			setUserId(user.email_id);
-		}
-	}, [token]);
-
+const Wait = () => {
+	const [files, setFile] = useState(null);
+	const handleFile = (evt) => {
+		var [file] = evt.target.files;
+		setFile(file);
+		console.log(file);
+	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('adf');
-		const data = {
-			email_id: email,
-			password: password,
-		};
+		// var data = new FormData();
+		// for (const file of files) {
+		// 	data.append('file', file);
+		// }
 		var axios = require('axios');
 		var config = {
 			method: 'post',
-			url: `${host.host}/login`,
-			data: data,
+			url: `${host.host}/uploadfile`,
+			data: {
+				file: files,
+			},
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
 		};
 		axios(config)
 			.then(function (response) {
-				console.log(JSON.stringify(response.data.access_token));
+				console.log(JSON.stringify(response.data));
 				if (response.status === 200) {
-					setErr('');
 					console.log('success');
-					window.localStorage.setItem('dbisToken', response.data.access_token);
-					window.location.href = '/profile';
 				}
 				console.log(JSON.stringify(response.data));
 			})
 			.catch((err) => {
 				console.log(err);
-				setErr(err.response.data.detail);
 			});
 	};
 
@@ -84,9 +66,12 @@ const SignIn = () => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
+				flexDirection: 'column',
 			}}
 		>
-			<div
+			<h1>No roles assigned yet.</h1>
+			<h3>You are not assigned with any roles. Please wait to get assigned</h3>
+			{/* <div
 				style={{
 					display: 'flex',
 					justifyContent: 'space-evenly',
@@ -104,7 +89,7 @@ const SignIn = () => {
 						...classes.fontname,
 					}}
 				>
-					SignIn
+					Check
 				</h1>
 				<form
 					style={{
@@ -121,37 +106,20 @@ const SignIn = () => {
 						label="Email"
 						name="email"
 						variant="outlined"
-						type="email"
+						type="file"
 						required
-						value={email}
-						onChange={(evt) => setEmail(evt.target.value)}
+						onChange={handleFile}
 						style={{ width: '80%', ...classes.fontname }}
 					/>
-					<br />
-					<TextField
-						id="outlined-basic"
-						label="Password"
-						name="email"
-						variant="outlined"
-						type="password"
-						required
-						value={password}
-						onChange={(evt) => setPassword(evt.target.value)}
-						style={{ width: '80%', ...classes.fontname }}
-					/>
-					<br />
+
 					<button style={classes.button} className="defaultButtonHover1">
-						SignIn
+						Check
 					</button>
-					<p>
-						Don't have account? <a href="/signup">Create here.</a>
-					</p>
 					<br />
-					<div style={{ color: 'red' }}>{err}</div>
 				</form>
-			</div>
+			</div> */}
 		</div>
 	);
 };
 
-export default SignIn;
+export default Wait;

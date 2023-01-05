@@ -46,7 +46,6 @@ const Register = () => {
 	const [isUserFound, setIsUserFound] = useState(false);
 	const [token, setToken] = useState(window.localStorage.getItem('dbisToken'));
 	const [role, setRole] = useState('0');
-	const [error, setError] = useState('');
 	useEffect(() => {
 		var url = new URL(window.location.href);
 		var config = {
@@ -232,19 +231,15 @@ const Register = () => {
 									window.location.href = '/wait';
 								}
 							}
-							setError('');
 						})
 						.catch((err) => {
 							console.log(err);
 							console.warn('File not uploaded');
-							setError('Something went wrong');
 						});
 				}
 			})
 			.catch((err) => {
 				console.log(err);
-				setError('Something went wrong');
-
 				console.warn('Profile not updated');
 			});
 	};
@@ -529,7 +524,6 @@ const Register = () => {
 					<br />
 				</form>
 				{err && isSubmitPressed && <div style={{ color: 'red' }}> {err}</div>}
-				<div style={{ color: 'red' }}>{error}</div>
 			</div>
 		</div>
 	);
