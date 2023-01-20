@@ -1,4 +1,4 @@
-create database company;
+create database if not exist company;
 use company;
 
 create table credentials(

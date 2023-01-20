@@ -5,9 +5,31 @@ services:
     container_name: sql
     restart: always
     ports:
-      - "3306:3306"
+      - '3307:3306'
     environment:
-       MYSQL_ROOT_PASSWORD: MySQLPassword@123
-       MYSQL_DATABASE: company
+      MYSQL_ROOT_PASSWORD: MySQLPassword@123
+      MYSQL_DATABASE: company
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./backup/mysql:/var/lib/mysql
+      - ./dump:/docker-entrypoint-initdb.d
+
+  frontend:
+    build: ./frontend/
+    container_name: frontend
+    restart: always
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    environment:
+      - TOKEN_EXP=1
+      - PRIVATE_KEY=qwertyuiopasdfghjklzxcvbnmpoiuytreasd
+    ports:
+      - '5000:80'
+    depends_on:
+      - sql
