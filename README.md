@@ -2,4 +2,4 @@
 A internship management platform build in React, FastAPI, and MySQL database to handle intern's for Big Companies. 
 
 # Steps to run 
-`docker compose up`
+`docker-compose up`
